@@ -1,4 +1,5 @@
-# Becoming the new Martin Garrix; Where do you start?
+# Becoming the new Martin Garrix
+## Where do you start?
 
 What started as a creative and musical video game kickstarted multiple musical revolutions. FruityLoops’
 attractive, simple and colourful interface opened the product up for a larger audience. Its power was that it
