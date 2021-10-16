@@ -5,7 +5,7 @@
 
 # ## Getting started
 
-# In[1]:
+# In[ ]:
 
 
 # Run this cell once, this will install the API client.
@@ -14,19 +14,7 @@ pip install google-api-python-client
 
 # #### Once installed, restart and clean the kernel and continue from here:
 
-# In[2]:
-
-
-#### als laatste weg halen ivm quotas
-
-api_key = 'AIzaSyBiBM47drg5csNW-V-wOZjNN-Vl5rfHNPM' #API code Jeroen
-
-api_key = 'AIzaSyA0v2in7KbrgrmjyxTBOrGcLEDn5QJeKio' #API code Tayfun
-api_key = 'AIzaSyB770EnyGnPvNtdIgvqVyZIsnBeinWuyzQ' #API code Quinten
-api_key = 'AIzaSyAuzxscfTqg5ElsuRhMHQx9zJGZyVzDqpM' #API code Sam
-
-
-# In[37]:
+# In[ ]:
 
 
 from googleapiclient.discovery import build
@@ -40,13 +28,13 @@ import pandas as pd
 # #### Create an api_key and store this credential as a Environment Variable on your local device
 # For information, check [this page](https://tilburgsciencehub.com/building-blocks/store-and-document-your-data/store-data/environment-variables/) or [this instructional video](https://www.youtube.com/watch?v=5iWhQWVXosU).
 
-# In[38]:
+# In[ ]:
 
 
 api_key = os.environ["YOUTUBE_API"]
 
 
-# In[39]:
+# In[ ]:
 
 
 youtube = build('youtube', 'v3', developerKey= api_key)
@@ -56,7 +44,7 @@ youtube
 # #### Testing the systems
 # The cells below will check whether the API functions. 
 
-# In[40]:
+# In[ ]:
 
 
 # check the default number of results, this should give 5
@@ -69,7 +57,7 @@ response = request.execute()
 print('Total items: ' , len(response['items']))
 
 
-# In[41]:
+# In[ ]:
 
 
 # use this to increase to max of 50
@@ -83,7 +71,7 @@ print('Total items: ' , len(response['items']))
 
 # #### Gathering the data
 
-# In[42]:
+# In[ ]:
 
 
 # print only the titles of the results within the retrieval range of 50.
@@ -95,7 +83,7 @@ for item in response['items']:
     print(item['snippet']['title'])
 
 
-# In[43]:
+# In[ ]:
 
 
 # counts results within the retrieval range of 50 per page.
@@ -126,7 +114,7 @@ while no_requests <= max_requests:
 len(search_res)
 
 
-# In[44]:
+# In[ ]:
 
 
 # makes a list of videoIDs
@@ -139,20 +127,20 @@ for item in search_res:
 print("Found " + str(len(videoIDs)) + " video IDs!")
 
 
-# In[45]:
+# In[ ]:
 
 
 # --- stats --- #
 cnt=0
 for vid in videoIDs:
     cnt+=1
-    if (cnt==5): 
-        break   # overview for only 5 results, just to give impression
+    if (cnt==3): 
+        break   # overview for only 3 results, just to give impression
     stats = youtube.videos().list(part='statistics',id=vid)
     print(stats.execute())
 
 
-# In[46]:
+# In[ ]:
 
 
 # response for stats 
@@ -170,7 +158,7 @@ for vid in videoIDs:
 res_stats
 
 
-# In[50]:
+# In[ ]:
 
 
 # output stats to json file
@@ -181,7 +169,7 @@ f.write(converted_to_string + '\n')
 f.close()
 
 
-# In[51]:
+# In[ ]:
 
 
 # read json file for stats
@@ -193,7 +181,7 @@ for item in content:
     f.close()
 
 
-# In[52]:
+# In[ ]:
 
 
 # read json df for stats
@@ -203,7 +191,7 @@ dfstats = pd.read_json(r'stats_output.json', orient = 'index')
 dfstats
 
 
-# In[53]:
+# In[ ]:
 
 
 # write df for stats to csv
@@ -212,19 +200,19 @@ dfstats.to_csv('video_statistics.csv', index_label ='id')
 
 # END OF STATS
 
-# In[54]:
+# In[ ]:
 
 
 # --- snippets ---#
 cnt=0
 for vid in videoIDs:
     cnt+=1
-    if (cnt==5): break
+    if (cnt==3): break
     snippets = youtube.videos().list(part='snippet',id=vid)
     print(snippets.execute())
 
 
-# In[55]:
+# In[ ]:
 
 
 # response for snippet
@@ -242,7 +230,7 @@ for item in videoIDs:
 res_snippets
 
 
-# In[56]:
+# In[ ]:
 
 
 # output snippets to json file
@@ -253,7 +241,7 @@ f.write(converted_to_string + '\n')
 f.close()
 
 
-# In[57]:
+# In[ ]:
 
 
 # read json file for snippet
@@ -265,7 +253,7 @@ for item in content:
     f.close()
 
 
-# In[58]:
+# In[ ]:
 
 
 # read json df for snippet
@@ -274,7 +262,7 @@ dfsnip = pd.read_json(r'snippet_output.json', orient = 'index')
 dfsnip
 
 
-# In[59]:
+# In[ ]:
 
 
 # write df for snippet to csv
@@ -283,7 +271,7 @@ dfsnip.to_csv('video_snippets.csv', index_label ='id')
 
 # END OF SNIPPETS
 
-# In[60]:
+# In[ ]:
 
 
 #--- creation of Channel ID list ---#
@@ -295,7 +283,7 @@ for item in search_res:
 ChannelIDs
 
 
-# In[61]:
+# In[ ]:
 
 
 # channel output
@@ -306,11 +294,9 @@ for chn in ChannelIDs:
         break
     channel = youtube.channels().list(part='statistics',id=chn)
     print(channel.execute())
-    
-channel.execute().keys()
 
 
-# In[62]:
+# In[ ]:
 
 
 # Response channel
@@ -329,22 +315,22 @@ for chn in ChannelIDs:
 res_channels
 
 
-# In[63]:
+# In[ ]:
 
 
 # output channel to json file
 
 converted_to_string = json.dumps(res_channels)
-f = open('channel_output.json', 'a', encoding='utf-8')
+f = open('channels_output.json', 'a', encoding='utf-8')
 f.write(converted_to_string + '\n')
 f.close()
 
 
-# In[64]:
+# In[ ]:
 
 
 # read json file for channel
-f = open('channel_output.json', 'r', encoding='utf-8')
+f = open('channels_output.json', 'r', encoding='utf-8')
 content = f.readlines()
 for item in content:
     jsonobj = json.loads(item)
@@ -352,24 +338,24 @@ for item in content:
     f.close()
 
 
-# In[65]:
+# In[ ]:
 
 
 # read json df for channel
-dfchn = pd.read_json(r'channel_output.json', orient = 'index')
+dfchn = pd.read_json(r'channels_output.json', orient = 'index')
 dfchn
 
 
-# In[66]:
+# In[ ]:
 
 
 # write df for channel to csv
-dfchn.to_csv('video_channel.csv', index_label ='ChannelId')
+dfchn.to_csv('video_channels.csv', index_label ='channelId')
 
 
 # END OF CHANNEL
 
-# In[67]:
+# In[ ]:
 
 
 #--- merging the video snippets and statistics --- #
@@ -380,7 +366,7 @@ dfmerged = dfsnip.merge(dfstats, on='id')
 dfmerged
 
 
-# In[68]:
+# In[ ]:
 
 
 dfmerged.to_csv('video_output.csv')
